@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function Poke() {
-  const [text, setText] = useState("...");
+  const [text, setText] = useState("");
   function fetchdata(): number {
     const img: any = document.getElementById("img");
     const name: any = document.getElementById("name");
@@ -19,9 +19,9 @@ function Poke() {
         console.log(data);
         img.src = data.sprites.front_default;
         setText(
-          'Name: "' +
+          "Name: " +
             data.name +
-            '"\nType: ' +
+            "\nType: " +
             data.types.map((id: any) => id.type.name) +
             "\nAbilities: " +
             data.abilities.map((id: any) => id.ability.name),
@@ -35,14 +35,17 @@ function Poke() {
       <h2>Pokédex</h2>
       <img
         id="img"
+        alt="pokémon"
         width={128}
+        className="border rounded-full bg-linear-to-b from-red-500 from-49% via-black via-50% to-white to-51%"
         src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png"
       />
       <br />
-      <pre className="text-left">{text}</pre>
       <br />
-      <input id="name" size={16} type="text" placeholder="name" />
-      <button onClick={fetchdata}>Go</button>
+      <textarea value={text} placeholder="info" rows={3} readOnly></textarea>
+      <br />
+      Search: <input id="name" size={8} type="text" placeholder="name" />
+      <button onClick={fetchdata}>go</button>
       <br />
       Powered by:
       <a href="https://pokeapi.co/">PokéAPI</a>

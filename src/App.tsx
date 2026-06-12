@@ -1,6 +1,8 @@
 import Calc from "./comps/calc.tsx";
 import Note from "./comps/note.tsx";
 import Poke from "./comps/poke.tsx";
+import Noiz from "./comps/noiz.tsx";
+import Rnum from "./comps/rnum.tsx";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
       <Calc />
       <Note />
       <Poke />
+      <Noiz />
+      <Rnum />
     </>
   );
 }

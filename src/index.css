@@ -1,9 +1,21 @@
 @import "tailwindcss";
 
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: black;
+  }
+}
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: white;
+  }
+}
+
 body {
   font-family: monospace;
-  background-color: white;
   text-align: center;
+  user-select: none;
+  image-rendering: crisp-edges;
 }
 .box {
   background-color: lightgray;
@@ -21,6 +33,8 @@ button {
   border: 1px solid black;
   min-width: 32px;
   margin: 1px;
+  padding-right: 2px;
+  padding-left: 2px;
 }
 button:hover {
   background-color: gray;
@@ -45,9 +59,10 @@ input,
 textarea {
   background-color: white;
   border: 1px solid black;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 img {
-  image-rendering: crisp-edges;
   display: inline-block;
 }
 h1 {
