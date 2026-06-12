@@ -21,7 +21,7 @@ function Poke() {
         setText(
           'Name: "' +
             data.name +
-            "\nType: " +
+            '"\nType: ' +
             data.types.map((id: any) => id.type.name) +
             "\nAbilities: " +
             data.abilities.map((id: any) => id.ability.name),
@@ -35,11 +35,13 @@ function Poke() {
       <h2>Pokédex</h2>
       <img
         id="img"
+        width={128}
         src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png"
       />
       <br />
-      <pre style={{ textAlign: "left" }}>{text}</pre>
-      <input id="name" size={8} type="text" placeholder="name" />
+      <pre className="text-left">{text}</pre>
+      <br />
+      <input id="name" size={16} type="text" placeholder="name" />
       <button onClick={fetchdata}>Go</button>
       <br />
       Powered by:

@@ -7,6 +7,7 @@ function App() {
     <>
       <div className="box">
         <h1>Toolbox</h1>
+        <a href="https://github.com/Luiz3264/toolbox">Github</a>
       </div>
       <Calc />
       <Note />

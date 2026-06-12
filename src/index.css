@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 body {
   font-family: monospace;
   background-color: white;
@@ -35,4 +37,25 @@ canvas {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+}
+a {
+  text-decoration: underline;
+}
+input,
+textarea {
+  background-color: white;
+  border: 1px solid black;
+}
+img {
+  image-rendering: crisp-edges;
+  display: inline-block;
+}
+h1 {
+  font-size: 64px;
+}
+h2 {
+  font-size: 32px;
+}
+* {
+  font-size: 16px;
 }
