@@ -5,7 +5,7 @@ function Rnum() {
   return (
     <div className="box">
       <h2>RNG</h2>
-      <input readOnly value={num} defaultValue={0} style={{ width: 128 }} />
+      <input readOnly value={num} style={{ width: 128 }} />
       <br />
       Max:
       <input

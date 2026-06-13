@@ -2,10 +2,13 @@ import { useState } from "react";
 
 function Poke() {
   const [text, setText] = useState("");
+  const [url, setUrl] = useState(
+    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png",
+  );
+
   function fetchdata(): number {
-    const img: any = document.getElementById("img");
     const name: any = document.getElementById("name");
-    if (!img || !name) {
+    if (!name) {
       return 1;
     }
     fetch(`https://pokeapi.co/api/v2/pokemon/${name.value}`)
@@ -17,7 +20,7 @@ function Poke() {
       })
       .then((data) => {
         console.log(data);
-        img.src = data.sprites.front_default;
+        setUrl(data.sprites.front_default);
         setText(
           "Name: " +
             data.name +
@@ -34,17 +37,17 @@ function Poke() {
     <div className="box">
       <h2>Pokédex</h2>
       <img
-        id="img"
         alt="pokémon"
         width={128}
-        className="border rounded-full bg-linear-to-b from-red-500 from-49% via-black via-50% to-white to-51%"
-        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png"
+        className="border-black rounded-full bg-linear-to-b from-red-500 from-49% via-black via-50% to-white to-51%"
+        src={url}
       />
       <br />
       <br />
       <textarea value={text} placeholder="info" rows={3} readOnly></textarea>
       <br />
-      Search: <input id="name" size={8} type="text" placeholder="name" />
+      Search:
+      <input id="name" size={8} type="text" placeholder="name" />
       <button onClick={fetchdata}>go</button>
       <br />
       Powered by:

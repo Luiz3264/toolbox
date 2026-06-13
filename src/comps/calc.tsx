@@ -13,13 +13,14 @@ function Calc() {
   return (
     <div className="box">
       <h2>Calculator</h2>
-      <input readOnly size={16} type="text" value={text} />
+      <input size={12} type="text" readOnly value={text} />
       <br />
       <br />
       {buttons.map((row) => (
-        <>
+        <div key={row.join("")}>
           {row.map((id) => (
             <button
+              key={id}
               onClick={() => {
                 if (id == "=") {
                   try {
@@ -40,7 +41,7 @@ function Calc() {
             </button>
           ))}
           <br />
-        </>
+        </div>
       ))}
     </div>
   );
