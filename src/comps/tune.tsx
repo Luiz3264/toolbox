@@ -32,6 +32,7 @@ function Tune() {
         if (tune) {
           if (!started) {
             started = !started;
+            await new Promise((resolve) => setTimeout(resolve, 1000));
             osc.start();
           }
           vol.gain.setValueAtTime(1, ctx.currentTime);

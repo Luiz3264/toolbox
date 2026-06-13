@@ -12,11 +12,11 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    --color: #202020;
-    --border: #f0f1f2;
-    --main: #fafafd;
+    --color: #404040;
+    --border: #d4d5d6;
+    --main: #f5f5f5;
     --sec: #ffffff;
-    --hig: #0069cc;
+    --hig: #3994bc;
   }
 }
 

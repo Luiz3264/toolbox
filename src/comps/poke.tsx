@@ -39,7 +39,7 @@ function Poke() {
       <img
         alt="pokémon"
         width={128}
-        className="border-black rounded-full bg-linear-to-b from-red-500 from-49% via-black via-50% to-white to-51%"
+        className="border-black border rounded-full bg-linear-to-b from-red-500 from-49% via-black via-50% to-white to-51%"
         src={url}
       />
       <br />
