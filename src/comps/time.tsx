@@ -47,14 +47,28 @@ function Time() {
       </h1>
       <button
         onClick={() => {
-          if (btn == "start") {
-            setRun(true);
-          } else {
-            setRun(false);
+          if (sec > 0) {
+            setSec(sec - 1);
           }
         }}
       >
-        {btn}
+        -s
+      </button>
+      <button
+        onClick={() => {
+          setSec(sec + 1);
+        }}
+      >
+        +s
+      </button>
+      <button
+        onClick={() => {
+          if (min > 0) {
+            setMin(min - 1);
+          }
+        }}
+      >
+        -m
       </button>
       <button
         onClick={() => {
@@ -63,12 +77,17 @@ function Time() {
       >
         +m
       </button>
+      <br />
       <button
         onClick={() => {
-          setSec(sec + 1);
+          if (btn == "start") {
+            setRun(true);
+          } else {
+            setRun(false);
+          }
         }}
       >
-        +s
+        {btn}
       </button>
       <button onClick={reset}>reset</button>
     </div>

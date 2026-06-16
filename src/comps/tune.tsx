@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 
 const ctx = new AudioContext();
 const osc = ctx.createOscillator();
@@ -6,8 +6,6 @@ const vol = ctx.createGain();
 osc.connect(vol);
 vol.connect(ctx.destination);
 let started = false;
-//osc.type = "sine";
-
 const notes = ["c", "c#", "d", "d#", "e", "f", "f#", "g", "g#", "a", "a#", "b"];
 const hz = [
   261.63, 277.18, 293.66, 311.13, 329.63, 349.23, 369.99, 392.0, 415.3, 440.0,
@@ -18,22 +16,20 @@ function Tune() {
   const [btn, setBtn] = useState("start");
   const [run, setRun] = useState(false);
 
+  const tuneRef = useRef<HTMLTextAreaElement>(null);
+  const spdRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     async function playtune() {
       if (run) {
-        const text = document.getElementById(
-          "tune",
-        ) as HTMLTextAreaElement | null;
-        const spd = document.getElementById("spd") as HTMLInputElement | null;
-        let speed = parseInt(spd?.value || "0");
+        let speed = parseInt(spdRef.current?.value || "0");
+        const tune = tuneRef.current?.value;
         var note = [...hz];
-        const tune = text?.value;
 
         if (tune) {
           if (!started) {
             started = !started;
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            osc.start();
+            osc.start(ctx.currentTime);
           }
           vol.gain.setValueAtTime(1, ctx.currentTime);
 
@@ -81,7 +77,7 @@ function Tune() {
       <h2>Tune Maker</h2>
       <textarea
         spellCheck="false"
-        id="tune"
+        ref={tuneRef}
         rows={3}
         cols={20}
         defaultValue="cdefgab+c"
@@ -89,7 +85,7 @@ function Tune() {
       <br />
       Speed:
       <input
-        id="spd"
+        ref={spdRef}
         min={0}
         defaultValue={100}
         type="number"

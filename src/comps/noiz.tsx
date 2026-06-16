@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const audioContext = new AudioContext();
 const bufferSize = audioContext.sampleRate * 2,
@@ -26,13 +26,14 @@ let interval: number;
 function Noiz() {
   const [run, setRun] = useState(false);
   const [btn, setBtn] = useState("start");
+  const noizRef = useRef<HTMLCanvasElement>(null);
 
   function random(num: number): number {
     return Math.floor(Math.random() * num + 1);
   }
 
   function dostuff() {
-    const cvs = document.getElementById("noizbox") as HTMLCanvasElement | null;
+    const cvs = noizRef.current;
     if (!cvs) return;
     const ctx = cvs.getContext("2d");
     if (!ctx) return;
@@ -59,8 +60,7 @@ function Noiz() {
   return (
     <div className="box">
       <h2>Noise</h2>
-      <canvas id="noizbox" width={128} height={128}></canvas>
-      <br />
+      <canvas ref={noizRef} width={128} height={128}></canvas>
       <button
         onClick={() => {
           if (btn == "start") {
@@ -68,7 +68,7 @@ function Noiz() {
             setRun(true);
             if (!started) {
               started = !started;
-              whiteNoise.start();
+              whiteNoise.start(audioContext.currentTime);
             }
             gainNode.gain.setValueAtTime(1, audioContext.currentTime);
           } else {

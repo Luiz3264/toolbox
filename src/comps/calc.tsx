@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef } from "react";
 const buttons = [
   ["(", ")", "CE", "/"],
   ["9", "8", "7", "*"],
@@ -8,12 +8,12 @@ const buttons = [
 ];
 
 function Calc() {
-  const [text, setText] = useState("");
+  const calcRef = useRef<HTMLInputElement>(null);
 
   return (
     <div className="box">
       <h2>Calculator</h2>
-      <input size={12} type="text" readOnly value={text} />
+      <input size={12} type="text" ref={calcRef} />
       <br />
       <br />
       {buttons.map((row) => (
@@ -22,18 +22,24 @@ function Calc() {
             <button
               key={id}
               onClick={() => {
+                const text = calcRef.current;
+                if (!text) return;
+                if (text.value == "error") text.value = "";
                 if (id == "=") {
-                  try {
-                    setText(eval(text));
-                  } catch {
-                    setText("");
+                  if (text.value == "") text.value = "";
+                  else {
+                    try {
+                      text.value = eval(text.value);
+                    } catch {
+                      text.value = "error";
+                    }
                   }
                 } else if (id == "CE") {
-                  setText(text.slice(0, -1));
+                  text.value = text.value.slice(0, -1);
                 } else if (id == "C") {
-                  setText("");
+                  text.value = "";
                 } else {
-                  setText(text + id);
+                  text.value = text.value + id;
                 }
               }}
             >

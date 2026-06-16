@@ -27,7 +27,6 @@ function Note() {
         rows={8}
         cols={16}
       />
-      <br />
     </div>
   );
 }
