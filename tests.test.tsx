@@ -1,9 +1,10 @@
 import { it, expect, describe } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { findByText, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import userEvent from "@testing-library/user-event";
 import App from "./src/app.tsx";
 
+const user = userEvent.setup();
 render(<App />);
 
 describe("Header", () => {
@@ -19,7 +20,6 @@ describe("Header", () => {
   });
 
   it("Theme buttons", async () => {
-    const user = userEvent.setup();
     const dark = screen.getByText("dark");
     const light = screen.getByText("light");
     const auto = screen.getByText("auto");
@@ -31,9 +31,11 @@ describe("Header", () => {
     await user.click(auto);
     expect(localStorage.getItem("theme")).toBe(null);
   });
+
+  it("Search", async () => {
+    const search = screen.getByPlaceholderText("search");
+    await user.type(search, "eyes");
+    const eyes = await screen.queryByText("Noise");
+    expect(eyes).toBe(null);
+  });
 });
-/*
-describe("Components", () => {
-  it("All working", () => {});
-});
-*/

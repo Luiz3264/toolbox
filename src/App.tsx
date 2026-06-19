@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+import star from "../public/star.svg";
+
 import Calc from "./comps/calc.tsx";
 import Eyes from "./comps/eyes.tsx";
+import Icon from "./comps/icon.tsx";
 import Noiz from "./comps/noiz.tsx";
 import Note from "./comps/note.tsx";
 import Pick from "./comps/pick.tsx";
@@ -13,6 +16,7 @@ import Tune from "./comps/tune.tsx";
 const components = [
   { name: "Calculator", Component: Calc },
   { name: "Eyes", Component: Eyes },
+  { name: "Icon Generator", Component: Icon },
   { name: "Noise", Component: Noiz },
   { name: "Notepad", Component: Note },
   { name: "Color Picker", Component: Pick },
@@ -68,10 +72,12 @@ function App() {
   return (
     <>
       <div className="box">
+        <img src={star.src} width={64} draggable="false" />
+
         <h1>Toolbox</h1>
         <input
           type="text"
-          placeholder="search tool"
+          placeholder="search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

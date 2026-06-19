@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-let interval: number;
+let interval: ReturnType<typeof setInterval>;
 
 function Time() {
   const [sec, setSec] = useState(0);

@@ -21,7 +21,7 @@ whiteNoise.connect(gainNode);
 gainNode.connect(audioContext.destination);
 let started = false;
 
-let interval: number;
+let interval: ReturnType<typeof setInterval>;
 
 function Noiz() {
   const [run, setRun] = useState(false);
@@ -60,7 +60,7 @@ function Noiz() {
   return (
     <div className="box">
       <h2>Noise</h2>
-      <canvas ref={noizRef} width={128} height={128}></canvas>
+      <canvas ref={noizRef} width={128} height={128} draggable="false"></canvas>
       <button
         onClick={() => {
           if (btn == "start") {

@@ -36,6 +36,7 @@ function Poke() {
       <img
         alt="pokémon"
         width={128}
+        draggable="false"
         className="border border-black rounded-full bg-linear-to-b from-[#ff0000] from-49% via-black via-50% to-white to-51%"
         src={url}
       />
