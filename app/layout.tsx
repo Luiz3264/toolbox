@@ -11,9 +11,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <title>toolbox</title>
-      </head>
       <body>
         <div id="root" className="main">
           {children}

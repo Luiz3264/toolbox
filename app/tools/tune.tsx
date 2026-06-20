@@ -1,11 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 
-const ctx = new AudioContext();
-const osc = ctx.createOscillator();
-const vol = ctx.createGain();
-osc.connect(vol);
-vol.connect(ctx.destination);
-let started = false;
 const notes = ["c", "c#", "d", "d#", "e", "f", "f#", "g", "g#", "a", "a#", "b"];
 const hz = [
   261.63, 277.18, 293.66, 311.13, 329.63, 349.23, 369.99, 392.0, 415.3, 440.0,
@@ -18,20 +12,34 @@ function Tune() {
 
   const tuneRef = useRef<HTMLTextAreaElement>(null);
   const spdRef = useRef<HTMLInputElement>(null);
+  const ctxRef = useRef<AudioContext | null>(null);
+  const oscRef = useRef<OscillatorNode | null>(null);
+  const volRef = useRef<GainNode | null>(null);
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    if (!ctxRef.current) {
+      ctxRef.current = new AudioContext();
+      oscRef.current = ctxRef.current.createOscillator();
+      volRef.current = ctxRef.current.createGain();
+      oscRef.current.connect(volRef.current);
+      volRef.current.connect(ctxRef.current.destination);
+    }
+  }, []);
 
   useEffect(() => {
     async function playtune() {
-      if (run) {
+      if (run && ctxRef.current && oscRef.current && volRef.current) {
         let speed = parseInt(spdRef.current?.value || "0");
         const tune = tuneRef.current?.value;
         var note = [...hz];
 
         if (tune) {
-          if (!started) {
-            started = !started;
-            osc.start(ctx.currentTime);
+          if (!startedRef.current) {
+            startedRef.current = true;
+            oscRef.current.start(ctxRef.current.currentTime);
           }
-          vol.gain.setValueAtTime(1, ctx.currentTime);
+          volRef.current.gain.setValueAtTime(1, ctxRef.current.currentTime);
 
           for (let i = 0; i < tune.length; i++) {
             let press: number;
@@ -48,7 +56,10 @@ function Tune() {
             } else if (tune[i] == "<") {
               speed *= 2;
             } else if (tune[i] == ".") {
-              osc.frequency.setValueAtTime(0, ctx.currentTime);
+              oscRef.current.frequency.setValueAtTime(
+                0,
+                ctxRef.current.currentTime,
+              );
               await new Promise((resolve) => setTimeout(resolve, speed));
             } else if (tune[i] == ",") {
               await new Promise((resolve) => setTimeout(resolve, speed));
@@ -59,12 +70,15 @@ function Tune() {
               } else {
                 press = note[notes.indexOf(tune[i])];
               }
-              osc.frequency.setValueAtTime(press, ctx.currentTime);
+              oscRef.current.frequency.setValueAtTime(
+                press,
+                ctxRef.current.currentTime,
+              );
               await new Promise((resolve) => setTimeout(resolve, speed));
             }
           }
         }
-        vol.gain.setValueAtTime(0, ctx.currentTime);
+        volRef.current.gain.setValueAtTime(0, ctxRef.current.currentTime);
         setBtn("start");
         setRun(false);
       }
@@ -93,12 +107,12 @@ function Tune() {
       />
       <button
         onClick={() => {
-          if (btn == "start") {
+          if (btn == "start" && ctxRef.current && volRef.current) {
             setRun(true);
             setBtn("stop");
-          } else {
+          } else if (ctxRef.current && volRef.current) {
             setRun(false);
-            vol.gain.setValueAtTime(0, ctx.currentTime);
+            volRef.current.gain.setValueAtTime(0, ctxRef.current.currentTime);
             setBtn("start");
           }
         }}

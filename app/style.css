@@ -20,24 +20,8 @@
   }
 }
 
-/* Theme override based on data attribute */
-[data-theme="dark"] {
-  --color: #bfbfbf;
-  --border: #2a2b2c;
-  --main: #191a1b;
-  --sec: #121314;
-  --hig: #3994bc;
-}
-
-[data-theme="light"] {
-  --color: #404040;
-  --border: #d4d5d6;
-  --main: #f5f5f5;
-  --sec: #ffffff;
-  --hig: #3994bc;
-}
-
 body {
+  color: var(--color);
   background-color: var(--sec);
   text-align: center;
   user-select: none;
@@ -51,7 +35,6 @@ canvas:hover {
   border: 1px solid var(--hig);
 }
 .box {
-  color: var(--color);
   background-color: var(--main);
   border: 1px solid var(--border);
   margin: 10px;

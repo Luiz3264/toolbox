@@ -1,11 +1,8 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 function Eyes() {
   const eye1Ref = useRef<HTMLDivElement>(null);
   const eye2Ref = useRef<HTMLDivElement>(null);
-  document.onmousemove = handleMouseMove;
-  document.addEventListener("touchstart", handleMouseMove);
-  document.addEventListener("touchmove", handleMouseMove);
 
   function handleMouseMove(e: MouseEvent | TouchEvent) {
     const rect1 = eye1Ref.current?.getBoundingClientRect();
@@ -26,6 +23,18 @@ function Eyes() {
     if (eye1Ref.current) eye1Ref.current.style.rotate = newAng1 + "deg";
     if (eye2Ref.current) eye2Ref.current.style.rotate = newAng2 + "deg";
   }
+
+  useEffect(() => {
+    document.onmousemove = handleMouseMove;
+    document.addEventListener("touchstart", handleMouseMove);
+    document.addEventListener("touchmove", handleMouseMove);
+
+    return () => {
+      document.onmousemove = null;
+      document.removeEventListener("touchstart", handleMouseMove);
+      document.removeEventListener("touchmove", handleMouseMove);
+    };
+  }, []);
 
   return (
     <div className="box">
