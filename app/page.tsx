@@ -3,17 +3,17 @@ import { useState } from "react";
 import star from "../public/star.svg";
 import "./style.css";
 
-import Calc from "./tools/calc.tsx";
-import Eyes from "./tools/eyes.tsx";
-import Icon from "./tools/icon.tsx";
-import Noiz from "./tools/noiz.tsx";
-import Note from "./tools/note.tsx";
-import Pick from "./tools/pick.tsx";
-import Poke from "./tools/poke.tsx";
-import Rnum from "./tools/rnum.tsx";
-import Strn from "./tools/strn.tsx";
-import Time from "./tools/time.tsx";
-import Tune from "./tools/tune.tsx";
+import Calc from "./_tools/calc.tsx";
+import Eyes from "./_tools/eyes.tsx";
+import Icon from "./_tools/icon.tsx";
+import Noiz from "./_tools/noiz.tsx";
+import Note from "./_tools/note.tsx";
+import Pick from "./_tools/pick.tsx";
+import Poke from "./_tools/poke.tsx";
+import Rnum from "./_tools/rnum.tsx";
+import Strn from "./_tools/strn.tsx";
+import Time from "./_tools/time.tsx";
+import Tune from "./_tools/tune.tsx";
 
 const components = [
   { name: "Calculator", Component: Calc },
