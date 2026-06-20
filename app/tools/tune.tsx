@@ -1,3 +1,4 @@
+"use client";
 import { useRef, useState, useEffect } from "react";
 
 const notes = ["c", "c#", "d", "d#", "e", "f", "f#", "g", "g#", "a", "a#", "b"];
