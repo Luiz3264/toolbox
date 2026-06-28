@@ -4,57 +4,121 @@ import { useRef, useEffect } from "react";
 function Eyes() {
   const eye1Ref = useRef<HTMLDivElement>(null);
   const eye2Ref = useRef<HTMLDivElement>(null);
+  const pupil1Ref = useRef<HTMLDivElement>(null);
+  const pupil2Ref = useRef<HTMLDivElement>(null);
+
+  function updatePupil(
+    eyeRef: React.RefObject<HTMLDivElement | null>,
+    pupilRef: React.RefObject<HTMLDivElement | null>,
+    clientX: number,
+    clientY: number,
+  ) {
+    const eye = eyeRef.current;
+    const pupil = pupilRef.current;
+    if (!eye || !pupil) return;
+
+    const rect = eye.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const dx = clientX - centerX;
+    const dy = clientY - centerY;
+    const distance = Math.min(Math.hypot(dx, dy), rect.width * 0.32);
+    const angle = Math.atan2(dy, dx);
+    const offsetX = Math.cos(angle) * distance;
+    const offsetY = Math.sin(angle) * distance;
+
+    pupil.style.transform = `translate(-50%, -50%) translate(${offsetX}px, ${offsetY}px)`;
+  }
 
   function handleMouseMove(e: MouseEvent | TouchEvent) {
-    const rect1 = eye1Ref.current?.getBoundingClientRect();
-    const rect2 = eye2Ref.current?.getBoundingClientRect();
-    if (!rect1 || !rect2) return;
-    const x1 = rect1.left + rect1.width / 2;
-    const x2 = rect2.left + rect2.width / 2;
-    const y1 = rect1.top + rect1.height / 2;
-    const y2 = rect2.top + rect2.height / 2;
     const clientX = e instanceof TouchEvent ? e.touches[0].clientX : e.clientX;
     const clientY = e instanceof TouchEvent ? e.touches[0].clientY : e.clientY;
-    let newAng1 = (Math.atan2(clientY - y1, clientX - x1) * 180) / Math.PI + 90;
-    let newAng2 = (Math.atan2(clientY - y2, clientX - x2) * 180) / Math.PI + 90;
 
-    if (newAng1 < 0) newAng1 += 360;
-    if (newAng2 < 0) newAng2 += 360;
-
-    if (eye1Ref.current) eye1Ref.current.style.rotate = newAng1 + "deg";
-    if (eye2Ref.current) eye2Ref.current.style.rotate = newAng2 + "deg";
+    updatePupil(eye1Ref, pupil1Ref, clientX, clientY);
+    updatePupil(eye2Ref, pupil2Ref, clientX, clientY);
   }
 
   useEffect(() => {
-    document.onmousemove = handleMouseMove;
-    document.addEventListener("touchstart", handleMouseMove);
-    document.addEventListener("touchmove", handleMouseMove);
+    document.addEventListener("mousemove", handleMouseMove as EventListener);
+    document.addEventListener("touchstart", handleMouseMove as EventListener);
+    document.addEventListener("touchmove", handleMouseMove as EventListener);
 
     return () => {
-      document.onmousemove = null;
-      document.removeEventListener("touchstart", handleMouseMove);
-      document.removeEventListener("touchmove", handleMouseMove);
+      document.removeEventListener(
+        "mousemove",
+        handleMouseMove as EventListener,
+      );
+      document.removeEventListener(
+        "touchstart",
+        handleMouseMove as EventListener,
+      );
+      document.removeEventListener(
+        "touchmove",
+        handleMouseMove as EventListener,
+      );
     };
   }, []);
 
   return (
     <div className="box">
       <h2>Eyes</h2>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div className="flex flex-row">
         <div
           ref={eye1Ref}
-          className="p-5 pt-1 bg-white border border-black rounded-full"
+          style={{
+            position: "relative",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 64,
+            height: 64,
+            background: "white",
+            border: "1px solid black",
+            borderRadius: "100%",
+          }}
         >
-          <div className="p-2 bg-black rounded-full"></div>
-          <div className="p-2 bg-white rounded-full"></div>
+          <div
+            ref={pupil1Ref}
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              width: 16,
+              height: 16,
+              background: "black",
+              borderRadius: "100%",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
         </div>
         <div className="p-1"></div>
         <div
           ref={eye2Ref}
-          className="p-5 pt-1 bg-white border border-black rounded-full"
+          style={{
+            position: "relative",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 64,
+            height: 64,
+            background: "white",
+            border: "1px solid black",
+            borderRadius: "100%",
+          }}
         >
-          <div className="p-2 bg-black rounded-full"></div>
-          <div className="p-2 bg-white rounded-full"></div>
+          <div
+            ref={pupil2Ref}
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              width: 16,
+              height: 16,
+              background: "black",
+              borderRadius: "100%",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
         </div>
       </div>
     </div>
